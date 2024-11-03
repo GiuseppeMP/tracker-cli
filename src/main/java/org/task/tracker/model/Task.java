@@ -2,6 +2,10 @@ package org.task.tracker.model;
 
 import java.time.LocalDate;
 
+record TaskDetails(int id, String description, LocalDate createAt, LocalDate updateAt) {
+}
+
+
 public class Task {
 
     private final int id;
@@ -13,6 +17,11 @@ public class Task {
         }
         this.id = taskId;
         this.description = taskDescription;
+    }
+
+    public Task(TaskDetails taskDetails) {
+        this.id = taskDetails.id();
+        this.description = taskDetails.description();
     }
 
     public int getId() {
@@ -39,4 +48,5 @@ public class Task {
         return LocalDate.now();
     }
 }
+
 

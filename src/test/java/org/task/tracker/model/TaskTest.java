@@ -3,7 +3,6 @@ package org.task.tracker.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import java.time.LocalDate;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -18,11 +17,19 @@ class TaskTest {
     @Nested
     class WhenUsingValidValues {
 
+        /**
+         * 
+         */
         @Test
         void shouldCreateNewTaskWithId() {
-            Task task = new Task(taskId, taskDescription);
+            // Task task = new Task(taskId, taskDescription);
+            TaskDetails taskDetails =
+                    new TaskDetails(taskId, taskDescription, LocalDate.now(), LocalDate.now());
+            Task task = new Task(taskDetails);
             assertNotNull(task);
             assertEquals(taskId, task.getId());
+            assertEquals(taskDescription, task.getDescription());
+            assertEquals(task.getCreateAt(), taskDetails.createAt());
         }
 
         @Test
@@ -65,7 +72,7 @@ class TaskTest {
         @ValueSource(strings = {"", "   "})
         void shouldNotAllowTaskWithoutDescription(String desc) {
             IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> new Task(0, desc));
+                    assertThrows(IllegalArgumentException.class, () -> new Task(0, desc));
 
             assertEquals("Task description cannot be empty", exception.getMessage());
         }
@@ -73,3 +80,4 @@ class TaskTest {
 
 
 }
+
